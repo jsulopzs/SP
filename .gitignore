@@ -4,3 +4,4 @@ workbook_pipeline*
 .RData
 data/topics
 .DS_Store
+.solutions

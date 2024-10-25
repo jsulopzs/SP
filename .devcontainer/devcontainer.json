@@ -2,7 +2,7 @@
     "name": "DevContainer",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "server",
-    "workspaceFolder": "/app",
+    "workspaceFolder": "/workspace",
     "shutdownAction": "none",
     "customizations": {
         "codespaces": {

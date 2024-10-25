@@ -27,7 +27,7 @@ dependencies:
   # - geopandas
   - pip:
       # - pyairtable
-      - -e modules
+      # - -e modules
       - dataframe-image
       # - python-frontmatter
       # - git+ssh://git@github.com/jsulopzs/python-ine.git
