@@ -1,0 +1,150 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-10-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Write notes outside the code below for R to interpret it as text, not code.
+
+To write code, create a chunk by pressing: `ctrl + alt + i`:
+
+```{r}
+# Write a mathematical operation below and press `ctrl + shift + enter` to run the code.
+2 + 2
+```
+
+## Tables
+
+### Load CSV
+
+Load `gapminder.csv`.
+
+```{r}
+df <- read.csv(file = "gapminder.csv")
+df
+```
+
+### Load Excel
+
+```{r}
+library(readxl)
+
+df <- read_excel('tsla_stock.xlsx')
+df
+```
+
+```{r}
+df <- read_excel('tsla_stock.xlsx', sheet = 2)
+df
+```
+
+
+## Descriptive analysis
+
+Use `describe` function from `psych` package to get a summary of the data.
+
+> If library is not found, execute `install.packages("psych")` in console.
+
+```{r}
+library(psych)
+describe(df)
+```
+
+## Data visualization
+
+Import `ggplot2` library.
+
+```{r}
+library(ggplot2)
+```
+
+### Create ggplot object
+
+```{r}
+ggplot()
+```
+
+Let's continue with `gapminder` dataset.
+
+```{r}
+df <- read.csv(file = "gapminder.csv")
+df
+```
+
+### Add data
+
+```{r}
+ggplot(data = df, mapping = aes(x = gdpPercap, y = lifeExp))
+```
+
+### Add `geom` layers
+
+```{r}
+ggplot(data = df, mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()
+```
+
+### Add `theme` layers
+
+```{r}
+ggplot(data = df, mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  theme_classic()
+```
+
+### Add `facet` layers
+
+```{r}
+ggplot(data = df, mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  theme_classic() +
+  facet_wrap(~year)
+```
+
+### Add `scale` layers
+
+```{r}
+ggplot(data = df, mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  theme_classic() +
+  facet_wrap(~year) +
+  scale_x_log10()
+```
+
+### Add `stat` layers
+
+```{r}
+ggplot(data = df, mapping = aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  theme_classic() +
+  facet_wrap(~year) +
+  scale_x_log10() +
+  stat_smooth()
+```
+
+### Color by continent
+
+```{r}
+ggplot(data = df, mapping = aes(x = gdpPercap, y = lifeExp, color = continent)) +
+  geom_point() +
+  theme_classic() +
+  facet_wrap(~year) +
+  scale_x_log10()
+```
+
+### Export plot
+
+```{r}
+p <- ggplot(data = df, mapping = aes(x = gdpPercap, y = lifeExp, color = continent)) +
+  geom_point() +
+  theme_classic() +
+  facet_wrap(~year) +
+  scale_x_log10()
+
+ggsave("plot.png", plot = p)
+```
+

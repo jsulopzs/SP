@@ -1,0 +1,6 @@
+archive*
+workbook_pipeline*
+.Rhistory
+.RData
+data/topics
+.DS_Store

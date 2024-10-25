@@ -1,0 +1,15 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    restart: always
+    image: ${NAME}:latest # Reuse the variable for image
+    env_file:
+      - .env
+    container_name: devcontainer
+    volumes:
+      - .:/app
+    tty: true
+    ports:
+      - "8000:8000"

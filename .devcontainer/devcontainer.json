@@ -1,0 +1,62 @@
+{
+    "name": "DevContainer",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "server",
+    "workspaceFolder": "/app",
+    "shutdownAction": "none",
+    "customizations": {
+        "codespaces": {
+            "openFiles": []
+        },
+        "vscode": {
+            "extensions": [
+                "ms-toolsai.jupyter",
+                "ms-python.python",
+                "bierner.docs-view",
+                "christian-kohler.path-intellisense",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.vscode-jupyter-slideshow",
+                "ms-toolsai.jupyter-renderers",
+                "ms-toolsai.jupyter-keymap",
+                "ms-toolsai.vscode-jupyter-cell-tags",
+                "dracula-theme.theme-dracula",
+                "charliermarsh.ruff",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "GitHub.github-vscode-theme",
+                "ms-azuretools.vscode-docker",
+                "DavidAnson.vscode-markdownlint",
+                "REditorSupport.r"
+            ],
+            "settings": {
+                "dev.containers.copyGitConfig": true,
+                "remote.extensionKind": {
+                    "all": [
+                        "workspace",
+                        "ui"
+                    ]
+                },
+                "python.defaultInterpreterPath": "/opt/conda/bin/python",
+                "python.linting.enabled": true,
+                "python.linting.pylintEnabled": false,
+                "python.linting.flake8Enabled": false,
+                "python.linting.ruffEnabled": true,
+                "python.linting.ruffPath": "/usr/local/bin/ruff",
+                "github.copilot": {
+                    "enabled": false
+                },
+                "jupyter.jupyterServer.kernel": "devcontainer-kernel",
+                "jupyter.notebook.defaultKernel": "devcontainer-kernel",
+                "python.pythonPath": "/opt/conda/bin/python",
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "terminal.integrated.defaultProfile.osx": "zsh",
+                "terminal.integrated.defaultProfile.windows": "zsh",
+                "terminal.integrated.profiles.linux": {
+                    "zsh": {
+                        "path": "/bin/zsh"
+                    }
+                }
+            },
+            "remoteUser": "vscode"
+        }
+    }
+}

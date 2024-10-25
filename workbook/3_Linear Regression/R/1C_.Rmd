@@ -1,0 +1,143 @@
+---
+title: "Linear Regression Example"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(broom)
+library(car) # for VIF
+library(lmtest) # for Breusch-Pagan Test
+set.seed(42)
+```
+
+## Data
+
+```{r}
+# Step 1: Generating synthetic data
+x <- seq(10, 50, length.out = 1000)
+y <- 3 * x + rnorm(1000, mean = 0, sd = 10)
+
+df <- data.frame(x = x, y = y)
+
+# Preview the data
+head(df)
+```
+
+## Linear Regression
+
+### Fit
+
+```{r}
+# Fit the linear model
+model <- lm(y ~ x, data = df)
+summary(model)
+```
+
+### Predictions
+
+```{r}
+# Calculate predictions
+df$y_pred <- predict(model, newdata = df)
+head(df)
+```
+
+### Plot
+
+#### Basic
+
+```{r}
+# Scatter plot with regression line
+ggplot(df, aes(x = x, y = y)) +
+  geom_point() +
+  geom_line(aes(y = y_pred), color = "red") +
+  labs(title = "Linear Regression", x = "x", y = "y")
+```
+
+#### Custom
+
+```{r}
+# Custom plot with formula
+slope <- coef(model)[2]
+intercept <- coef(model)[1]
+formula <- paste0("y = ", round(slope, 2), "x + ", round(intercept, 2))
+
+ggplot(df, aes(x = x, y = y)) +
+  geom_point() +
+  geom_line(aes(y = y_pred), color = "red") +
+  labs(title = "Linear Regression", x = "x", y = "y") +
+  annotate("text", x = 12, y = 200, label = formula, hjust = 0, size = 5, color = "blue") +
+  theme_minimal()
+```
+
+## Evaluation
+
+```{r}
+# Calculate residuals and error metrics
+df$error <- df$y - df$y_pred
+df$error2 <- df$error^2
+
+MSE <- mean(df$error2)
+RMSE <- sqrt(MSE)
+R2 <- 1 - MSE / var(df$y)
+
+RMSE
+R2
+```
+
+#### Residual Plot
+
+```{r}
+# Residuals plot
+ggplot(df, aes(x = y_pred, y = error)) +
+  geom_point(color = "blue") +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
+  labs(title = "Residuals vs Predicted", x = "Predicted Values", y = "Residuals") +
+  theme_minimal()
+```
+
+#### Normality of Residuals
+
+```{r}
+# Histogram and Q-Q plot of residuals
+par(mfrow = c(1, 2))
+
+# Histogram
+hist(df$error, breaks = 30, main = "Histogram of Residuals", xlab = "Residuals")
+
+# Q-Q Plot
+qqnorm(df$error)
+qqline(df$error)
+
+par(mfrow = c(1, 1))
+```
+
+#### Shapiro-Wilk Test for Normality
+
+```{r}
+shapiro_test <- shapiro.test(df$error)
+shapiro_test
+```
+
+#### Breusch-Pagan Test for Homoscedasticity
+
+```{r}
+# Breusch-Pagan test
+bptest(model)
+```
+
+#### Variance Inflation Factor (VIF) for Multicollinearity
+
+```{r}
+# VIF to check multicollinearity
+vif(model)
+```
+
+## Conclusions
+
+- RMSE: `r RMSE`
+- R-squared: `r R2`
+
+This RMarkdown document replicates the linear regression example from Python to R. You can run this code in RStudio to generate the analysis and plots, and the document will produce a full HTML report with the desired calculations and visualizations.

@@ -1,0 +1,60 @@
+---
+title: "Linear Model Comparisons with Stargazer"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document: 
+    latex_engine: pdflatex
+    keep_tex: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, results='asis')
+library(stargazer)
+
+OUTPUT_FOLDER = "src/dev"
+generate_stargazer_output <- function(model, filename, summary = FALSE) {
+  
+  output_path <- file.path(OUTPUT_FOLDER, filename)
+  
+  stargazer(model, type = "latex", 
+            summary = summary,
+            out = output_path, 
+            align = TRUE,
+            out.header = FALSE,
+            header = FALSE)
+}
+```
+
+## Fitting the Models
+
+```{r fit-models}
+data(mtcars)
+model1 <- lm(mpg ~ wt, data = mtcars)
+model2 <- lm(mpg ~ wt + hp, data = mtcars)
+```
+
+## Model Summaries
+
+```{r}
+generate_stargazer_output(list(model1, model2), "model_summary.tex")
+```
+
+## ANOVA Comparison
+
+```{r stargazer-anova, results='asis'}
+anova_results <- anova(model1, model2)
+generate_stargazer_output(anova_results, "anova_comparison.tex", summary = FALSE)
+```
+
+## Additional Metrics
+
+```{r stargazer-additional, results='asis'}
+additional_metrics <- data.frame(
+  Model = c("Model 1", "Model 2"),
+  R_squared = c(summary(model1)$r.squared, summary(model2)$r.squared),
+  Adjusted_R_squared = c(summary(model1)$adj.r.squared, summary(model2)$adj.r.squared),
+  F_statistic = c(summary(model1)$fstatistic[1], summary(model2)$fstatistic[1])
+)
+generate_stargazer_output(additional_metrics, "additional_metrics.tex", summary = FALSE)
+```
