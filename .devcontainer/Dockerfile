@@ -26,6 +26,8 @@ RUN apt-get update && \
     build-essential \
     gfortran \
     openssh-client \
+    imagemagick \  
+    texlive-full \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory to /workspace
